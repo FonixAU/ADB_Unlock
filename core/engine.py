@@ -366,6 +366,26 @@ def kill_adb_processes():
     STATE.log("Служба ADB перезапущена с нуля", "success")
 
 
+def stop_adb_server():
+    """Completely terminates ADB server processes so that the browser (WebUSB) can exclusively access the vehicle."""
+    STATE.log("Останавливаем службу ADB для освобождения USB-разъёма...", "cmd")
+    try:
+        if STATE.adb_path and os.path.isfile(STATE.adb_path):
+            subprocess.run([STATE.adb_path, "kill-server"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=5)
+    except Exception:
+        pass
+    try:
+        if STATE.os_name == "windows":
+            subprocess.run(["taskkill", "/F", "/IM", "adb.exe"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        else:
+            subprocess.run(["killall", "-9", "adb"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except Exception:
+        pass
+    STATE.device_state = "disconnected"
+    STATE.device_serial = None
+    STATE.log("Фоновая служба ADB остановлена. USB-порт полностью передан браузеру.", "success")
+
+
 def check_devices():
     """Checks connected devices."""
     code, stdout, _ = run_adb(["devices"])

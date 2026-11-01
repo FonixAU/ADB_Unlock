@@ -17,6 +17,7 @@ from engine import (
     STATE,
     locate_or_download_adb,
     kill_adb_processes,
+    stop_adb_server,
     check_devices,
     test_adb_connection,
     worker_catch_factory_reset,
@@ -124,10 +125,13 @@ def post_unlock_prompt():
     print(" • Проверяющий AutoInstallVerifier: отключен")
     print(" • Приложение Geely-ADB-Toggle: готово к работе на экране авто\n")
     
-    ans = safe_input(f"{C_CYAN}Открыть официальный веб-установщик GeelyTune в браузере? [Y/n] > {C_RESET}", default="n").strip().lower()
+    ans = safe_input(f"{C_CYAN}Открыть официальный веб-установщик GeelyTune в браузере? [Y/n] > {C_RESET}", default="y").strip().lower()
     if ans != "n":
+        print(f"\n{C_CYAN}Освобождаем USB-разъём (завершаем фоновые процессы adb.exe)...{C_RESET}")
+        stop_adb_server()
+        print(f"{C_GREEN}[OK] Служба ADB остановлена. Порт полностью свободен для браузера (WebUSB)!{C_RESET}")
         webbrowser.open("https://geelytune.github.io")
-        print(f"{C_GREEN}Ссылка открыта в браузере: https://geelytune.github.io{C_RESET}")
+        print(f"{C_WHITE}В открывшейся вкладке нажмите «Подключить» и выберите ваш автомобиль.{C_RESET}")
         time.sleep(2)
 
 
@@ -164,8 +168,12 @@ def main():
             run_interactive_task(STATE, test_adb_connection, "Диагностика связи и проверка статуса ГУ")
         elif choice == "4":
             play_sound("step")
+            print(f"\n{C_CYAN}Освобождаем USB-разъём (завершаем фоновые процессы adb.exe)...{C_RESET}")
+            stop_adb_server()
+            print(f"{C_GREEN}[OK] Служба ADB остановлена. Порт свободен для браузера (WebUSB)!{C_RESET}")
             webbrowser.open("https://geelytune.github.io")
-            STATE.log("Открыт сайт GeelyTune: https://geelytune.github.io", "success")
+            STATE.log("Служба ADB остановлена. Открыт GeelyTune: https://geelytune.github.io", "success")
+            time.sleep(1.5)
         elif choice == "5":
             play_sound("step")
             run_interactive_task(STATE, kill_adb_processes, "Перезапуск службы ADB")
