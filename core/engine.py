@@ -362,8 +362,13 @@ def kill_adb_processes():
     except Exception:
         pass
     time.sleep(1)
-    run_adb(["start-server"], timeout=10)
-    STATE.log("Служба ADB перезапущена с нуля", "success")
+    code, stdout, stderr = run_adb(["start-server"], timeout=10)
+    if code == 0:
+        STATE.set_status("success", "Служба ADB успешно перезапущена с нуля")
+        STATE.log("Служба ADB перезапущена с нуля", "success")
+    else:
+        title, reason, steps = humanize_adb_error(stderr or stdout, context="Не удалось запустить сервер ADB")
+        STATE.set_error(title, reason, steps, raw=stderr or stdout)
 
 
 def stop_adb_server():

@@ -352,6 +352,8 @@ def run_interactive_task(state, task_fn, title="Выполнение опера�
     print(f"{C_GRAY}Нажмите Ctrl+C для прерывания в случае необходимости.{C_RESET}\n")
 
     state.stop_worker = False
+    state.status = "running"
+    state.last_error_details = None
     worker_finished = threading.Event()
     play_sound("step")
 

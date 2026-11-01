@@ -211,7 +211,7 @@ def main():
         elif choice == "6":
             play_sound("step")
             run_interactive_task(STATE, kill_adb_processes, "Перезапуск службы ADB")
-            test_adb_connection()
+            check_devices()
         elif choice.lower() in ["7", "s", "ы"]:
             enabled = toggle_sound()
             status_str = "ВКЛЮЧЕНЫ" if enabled else "ВЫКЛЮЧЕНЫ"
