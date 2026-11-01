@@ -99,13 +99,16 @@ def run_quick_unlock():
     """Runs quick unlock for cars with existing ADB after dealer 2.1.4.5+ update."""
     clear_screen()
     print_banner()
-    print(f"\n{C_CYAN}{C_BOLD}[*] СЦЕНАРИЙ: ЭКСПРЕСС-СНЯТИЕ ЗАЩИТЫ (ОД 2.1.4.5+){C_RESET}\n")
-    print(f"{C_GREEN}Перемычка НЕ требуется!{C_RESET}")
-    print("Используется, если постоянный ADB в ГУ уже был активирован ранее.")
+    print(f"\n{C_CYAN}{C_BOLD}[*] СЦЕНАРИЙ 1: СНЯТИЕ ЗАЩИТЫ УСТАНОВКИ (ОД 2.1.4.5+){C_RESET}\n")
+    print(f"{C_YELLOW}ВАЖНОЕ ПРИМЕЧАНИЕ:{C_RESET} Этот пункт {C_BOLD}НЕ открывает изначально закрытый ADB{C_RESET}!")
+    print("Он нужен ТОЛЬКО если ADB в машине уже был открыт ранее, но после обновления")
+    print("у официального дилера (2.1.4.5+) снова заблокировалась установка сторонних APK.\n")
+    print(f"{C_GREEN}Перемычка и сброс настроек НЕ ТРЕБУЮТСЯ!{C_RESET}")
     print("Скрипт отключит блокировку Parrot в build.prop, выключит AutoInstallVerifier")
-    print("и (при необходимости) установит переключатель Geely-ADB-Toggle.\n")
+    print("и установит переключатель Geely-ADB-Toggle.\n")
+    print(f"{C_GRAY}Если на автомобиле ADB закрыт с завода — используйте Сценарий [2] (Открыть ADB с нуля).{C_RESET}\n")
 
-    ans = safe_input(f"{C_CYAN}Запустить процедуру снятия блокировок? [Enter - Да, 0 - Назад] > {C_RESET}", default="0").strip()
+    ans = safe_input(f"{C_CYAN}Запустить процедуру снятия защит установки? [Enter - Да, 0 - Назад] > {C_RESET}", default="0").strip()
     if ans == "0":
         return
 

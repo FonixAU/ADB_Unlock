@@ -237,11 +237,11 @@ def render_menu(state):
         print(f"{C_CYAN}│{C_RESET} {p} {C_CYAN}│{C_RESET}")
 
     if connected and needs_unlock:
-        print_menu_item(f"{C_GREEN}{C_BOLD}[1] Экспресс-снятие защиты (ОД 2.1.4.5+, перемычка НЕ требуется){C_RESET}")
+        print_menu_item(f"{C_GREEN}{C_BOLD}[1] Снять защиту установки (ОД 2.1.4.5+, если ADB уже открыт){C_RESET}")
     else:
-        print_menu_item(f"{C_WHITE}[1]{C_RESET} Экспресс-снятие защиты (После обновления ОД 2.1.4.5+, если ADB уже был)")
+        print_menu_item(f"{C_WHITE}[1]{C_RESET} Снять защиту установки (Если ADB уже открыт / после обновления ОД)")
 
-    print_menu_item(f"{C_WHITE}[2]{C_RESET} Первоначальная разблокировка (Фиксация ADB через Factory Reset)")
+    print_menu_item(f"{C_WHITE}[2]{C_RESET} Открыть ADB с нуля (Фиксация порта через перемычку + сброс ГУ)")
     print_menu_item(f"{C_WHITE}[3]{C_RESET} Проверить статус ГУ (Диагностика связи и состояния блокировок)")
     print_menu_item(f"{C_WHITE}[4]{C_RESET} Открыть GeelyTune в браузере (твики и помощник ГУ)")
     print_menu_item(f"{C_WHITE}[5]{C_RESET} Перезапустить службу ADB (Очистить зависшие процессы)")
