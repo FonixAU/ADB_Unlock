@@ -125,7 +125,7 @@ def post_unlock_prompt():
     print(" • Проверяющий AutoInstallVerifier: отключен")
     print(" • Приложение Geely-ADB-Toggle: готово к работе на экране авто\n")
     
-    ans = safe_input(f"{C_CYAN}Открыть официальный веб-установщик GeelyTune в браузере? [Y/n] > {C_RESET}", default="y").strip().lower()
+    ans = safe_input(f"{C_CYAN}Открыть веб-сервис GeelyTune (твики и помощник ГУ) в браузере? [Y/n] > {C_RESET}", default="y").strip().lower()
     if ans != "n":
         print(f"\n{C_CYAN}Освобождаем USB-разъём (завершаем фоновые процессы adb.exe)...{C_RESET}")
         stop_adb_server()
@@ -172,7 +172,7 @@ def main():
             stop_adb_server()
             print(f"{C_GREEN}[OK] Служба ADB остановлена. Порт свободен для браузера (WebUSB)!{C_RESET}")
             webbrowser.open("https://geelytune.github.io")
-            STATE.log("Служба ADB остановлена. Открыт GeelyTune: https://geelytune.github.io", "success")
+            STATE.log("Служба ADB остановлена. Открыт GeelyTune (твики ГУ): https://geelytune.github.io", "success")
             time.sleep(1.5)
         elif choice == "5":
             play_sound("step")

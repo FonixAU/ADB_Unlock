@@ -243,7 +243,7 @@ def render_menu(state):
 
     print_menu_item(f"{C_WHITE}[2]{C_RESET} Первоначальная разблокировка (Фиксация ADB через Factory Reset)")
     print_menu_item(f"{C_WHITE}[3]{C_RESET} Проверить статус ГУ (Диагностика связи и состояния блокировок)")
-    print_menu_item(f"{C_WHITE}[4]{C_RESET} Открыть веб-установщик GeelyTune (в браузере)")
+    print_menu_item(f"{C_WHITE}[4]{C_RESET} Открыть GeelyTune в браузере (твики и помощник ГУ)")
     print_menu_item(f"{C_WHITE}[5]{C_RESET} Перезапустить службу ADB (Очистить зависшие процессы)")
     sound_badge = f"{C_GREEN}[ ВКЛ ]{C_RESET}" if is_sound_enabled() else f"{C_GRAY}[ ВЫКЛ ]{C_RESET}"
     print_menu_item(f"{C_WHITE}[6]{C_RESET} Звуковые эффекты: {sound_badge}")
@@ -504,10 +504,12 @@ def render_help_screen():
     box_line("   Программа принудительно отключает этого робота для всех профилей ГУ.", C_GREEN)
     box_bottom()
 
-    box_title("📱 ШАГ 3: СТАВИМ КНОПКУ (ADB TOGGLE) И ОТКРЫВАЕМ МАГАЗИН")
-    box_line("• На экран ГУ ставится удобный тумблер: можно в один клик переключать разъём", C_WHITE)
+    box_title("📱 ШАГ 3: ТУМБЛЕР (ADB TOGGLE), ТВИКИ GEELYTUNE И ПРИЛОЖЕНИЯ")
+    box_line("• На экран ГУ ставится тумблер ADB Toggle: в один клик можно переключать разъём", C_WHITE)
     box_line("  между обычной флешкой с музыкой и кабелем отладки.", C_WHITE)
-    box_line("• Открывается веб-установщик GeelyTune: выбираете программы и ставите в 1 клик!", C_GREEN)
+    box_line("• Открывается GeelyTune для установки помощника ГУ и удобных твиков интерфейса.", C_CYAN)
+    box_line("• Любые сторонние приложения (Яндекс.Навигатор, YouTube и др.) теперь свободно", C_WHITE)
+    box_line("  устанавливаются удобным для вас способом: через сторонние магазины или APK.", C_GREEN)
     box_bottom()
 
     box_title("🛡️ БЕЗОПАСНОСТЬ: ЧТО С МАШИНОЙ И ПЛАНШЕТОМ?")
