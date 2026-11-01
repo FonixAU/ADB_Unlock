@@ -187,6 +187,7 @@ def main():
             render_help_screen()
         elif choice in ["0", "q", "exit", "quit"]:
             play_sound("step")
+            stop_adb_server()
             print(f"\n{C_GREEN}Завершение работы. Удачи на дорогах!{C_RESET}")
             time.sleep(0.5)
             break
