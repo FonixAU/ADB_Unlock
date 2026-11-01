@@ -128,7 +128,7 @@ def run_quick_unlock():
 
 
 def post_unlock_prompt():
-    """Prompt after successful unlock to open GeelyTune."""
+    """Prompt after successful unlock to open ex5app store or GeelyTune."""
     clear_screen()
     print_banner()
     print(f"\n{C_GREEN}{C_BOLD}[OK] ПОЗДРАВЛЯЕМ! РАЗБЛОКИРОВКА ПОЛНОСТЬЮ ЗАВЕРШЕНА!{C_RESET}\n")
@@ -136,13 +136,20 @@ def post_unlock_prompt():
     print(" • Проверка Parrot certificates: отключена (установка сторонних APK разрешена)")
     print(" • Проверяющий AutoInstallVerifier: отключен")
     print(" • Приложение Geely-ADB-Toggle: готово к работе на экране авто\n")
-    print(f"{C_CYAN}💡 ГДЕ БРАТЬ ПРИЛОЖЕНИЯ:{C_RESET}")
-    print(f" • Каталог софта, подогнанного под экран нашего авто: {C_GREEN}https://ex5app.wingie.ru/{C_RESET}")
-    print(f"   (спасибо первооткрывателю @wingus из чата!)")
-    print(f" • Либо ставьте любые свои файлы APK напрямую.\n")
+    print(f"{C_CYAN}КУДА ПЕРЕЙТИ ДАЛЬШЕ?{C_RESET}")
+    print(f" {C_GREEN}[1]{C_RESET} Открыть веб-магазин {C_BOLD}EX5 Apps{C_RESET} (https://ex5app.wingie.ru/ — софт от @wingus через браузер)")
+    print(f" {C_WHITE}[2]{C_RESET} Открыть веб-сервис {C_BOLD}GeelyTune{C_RESET} (https://geelytune.github.io — твики ГУ)")
+    print(f" {C_GRAY}[0] Вернуться в главное меню{C_RESET}\n")
     
-    ans = safe_input(f"{C_CYAN}Открыть веб-сервис GeelyTune (твики и помощник ГУ) в браузере? [Y/n] > {C_RESET}", default="y").strip().lower()
-    if ans != "n":
+    ans = safe_input(f"{C_CYAN}Выберите действие [1, 2, 0] > {C_RESET}", default="1").strip()
+    if ans == "1":
+        print(f"\n{C_CYAN}Освобождаем USB-разъём (завершаем фоновые процессы adb.exe)...{C_RESET}")
+        stop_adb_server()
+        print(f"{C_GREEN}[OK] Служба ADB остановлена. Порт полностью свободен для браузера (WebUSB)!{C_RESET}")
+        webbrowser.open("https://ex5app.wingie.ru/")
+        print(f"{C_WHITE}В открывшейся вкладке нажмите «Подключить» и устанавливайте софт прямо из браузера.{C_RESET}")
+        time.sleep(2)
+    elif ans == "2":
         print(f"\n{C_CYAN}Освобождаем USB-разъём (завершаем фоновые процессы adb.exe)...{C_RESET}")
         stop_adb_server()
         print(f"{C_GREEN}[OK] Служба ADB остановлена. Порт полностью свободен для браузера (WebUSB)!{C_RESET}")
@@ -171,7 +178,7 @@ def main():
         render_menu(STATE)
         render_recent_logs(STATE, count=4)
 
-        choice = safe_input(f"\n{C_CYAN}{C_BOLD}Выберите пункт меню [0-7, S - Звук, ? - Справка] > {C_RESET}", default="0").strip()
+        choice = safe_input(f"\n{C_CYAN}{C_BOLD}Выберите пункт меню [0-8, S - Звук, ? - Справка] > {C_RESET}", default="0").strip()
 
         if choice == "1":
             play_sound("step")
@@ -192,13 +199,23 @@ def main():
             time.sleep(1.5)
         elif choice == "5":
             play_sound("step")
+            print(f"\n{C_CYAN}Освобождаем USB-разъём (завершаем фоновые процессы adb.exe)...{C_RESET}")
+            stop_adb_server()
+            print(f"{C_GREEN}[OK] Служба ADB остановлена. Порт свободен для браузера (WebUSB)!{C_RESET}")
+            webbrowser.open("https://ex5app.wingie.ru/")
+            STATE.log("Служба ADB остановлена. Открыт веб-установщик EX5 Apps: https://ex5app.wingie.ru/", "success")
+            print(f"{C_WHITE}В браузере откроется каталог приложений от @wingus.{C_RESET}")
+            print(f"{C_WHITE}Нажмите «Подключить» в браузере и устанавливайте приложения прямо через WebUSB!{C_RESET}")
+            time.sleep(2)
+        elif choice == "6":
+            play_sound("step")
             run_interactive_task(STATE, kill_adb_processes, "Перезапуск службы ADB")
             test_adb_connection()
-        elif choice.lower() in ["6", "s", "ы"]:
+        elif choice.lower() in ["7", "s", "ы"]:
             enabled = toggle_sound()
             status_str = "ВКЛЮЧЕНЫ" if enabled else "ВЫКЛЮЧЕНЫ"
             STATE.log(f"Звуковые эффекты: {status_str}", "info")
-        elif choice.lower() in ["7", "?", "help", "h", "справка", "инфо"]:
+        elif choice.lower() in ["8", "?", "help", "h", "справка", "инфо"]:
             play_sound("step")
             render_help_screen()
         elif choice in ["0", "q", "exit", "quit"]:
