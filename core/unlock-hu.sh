@@ -118,7 +118,8 @@ if grep -q '^ro\.vendor\.ecarx\.app_verify=false$' "$P" 2>/dev/null; then
 fi
 
 # adb remount may yield either overlayfs or a writable physical filesystem.
-if mount | grep ' on /product ' | grep -Eq 'overlay|[(,]rw[,)]'; then
+# Strictly verify active mount is rw (read-write), not read-only overlay
+if mount | grep ' on /product ' | tail -n 1 | grep -q '[(,]rw[,)]'; then
     if sed -i 's/^ro\.vendor\.ecarx\.app_verify=true$/ro.vendor.ecarx.app_verify=false/' "$P" &&
         grep -q '^ro\.vendor\.ecarx\.app_verify=false$' "$P"; then
         echo GT:REBOOT

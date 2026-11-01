@@ -86,12 +86,12 @@ def humanize_adb_error(raw_err, context=""):
         ]
         return title, reason, steps
 
-    if any(k in raw_lower for k in ["read-only file system", "remount failed"]):
+    if any(k in raw_lower for k in ["build.prop", "не удалось изменить", "read-only file system", "remount failed"]):
         title = "Системные разделы ГУ заблокированы для записи"
-        reason = "Разделы /system и /product защищены от изменений операционной системой Android."
+        reason = "Раздел /product или /system защищён от изменений (read-only overlayfs)."
         steps = [
             "Убедитесь, что получен root-доступ к ГУ (adb root).",
-            "Попробуйте запустить операцию повторно: программа выполнит перемонтирование файловой системы (remount)."
+            "Повторите операцию: программа перемонтирует файловую систему (remount) и внесёт изменения."
         ]
         return title, reason, steps
 
@@ -104,7 +104,7 @@ def humanize_adb_error(raw_err, context=""):
         ]
         return title, reason, steps
 
-    if any(k in raw_lower for k in ["xsfinstallverifier", "autoinstallverifier", "install_failed_verification"]):
+    if any(k in raw_lower for k in ["autoinstallverifier не выключился", "xsfinstallverifier", "install_failed_verification"]):
         title = "Установка заблокирована верификатором Geely"
         reason = "Системная служба com.ecarx.xsfinstallverifier отклоняет установку сторонних APK-пакетов."
         steps = [
