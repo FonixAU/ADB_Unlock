@@ -99,14 +99,23 @@ def run_quick_unlock():
     """Runs quick unlock for cars with existing ADB after dealer 2.1.4.5+ update."""
     clear_screen()
     print_banner()
-    print(f"\n{C_CYAN}{C_BOLD}[*] СЦЕНАРИЙ 1: СНЯТИЕ ЗАЩИТЫ УСТАНОВКИ (ОД 2.1.4.5+){C_RESET}\n")
-    print(f"{C_YELLOW}ВАЖНОЕ ПРИМЕЧАНИЕ:{C_RESET} Этот пункт {C_BOLD}НЕ открывает изначально закрытый ADB{C_RESET}!")
-    print("Он нужен ТОЛЬКО если ADB в машине уже был открыт ранее, но после обновления")
-    print("у официального дилера (2.1.4.5+) снова заблокировалась установка сторонних APK.\n")
-    print(f"{C_GREEN}Перемычка и сброс настроек НЕ ТРЕБУЮТСЯ!{C_RESET}")
-    print("Скрипт отключит блокировку Parrot в build.prop, выключит AutoInstallVerifier")
-    print("и установит переключатель Geely-ADB-Toggle.\n")
-    print(f"{C_GRAY}Если на автомобиле ADB закрыт с завода — используйте Сценарий [2] (Открыть ADB с нуля).{C_RESET}\n")
+    print(f"\n{C_CYAN}{C_BOLD}[*] ПУНКТ 1: СНЯТИЕ ЗАЩИТЫ УСТАНОВКИ (ОД 2.1.4.5+){C_RESET}\n")
+    print(f"{C_RED}{C_BOLD}⚠️  ВНИМАНИЕ: ПУНКТ [1] НЕ ОТКРЫВАЕТ ЗАКРЫТЫЙ ПОРТ ADB!{C_RESET}")
+    print(f"{C_YELLOW}Этот пункт предназначен ТОЛЬКО для автомобилей, где ADB УЖЕ БЫЛ ОТКРЫТ ранее{C_RESET}")
+    print("(например, вы открывали его ранее, а затем обновились у дилера до 2.1.4.5+,")
+    print("из-за чего слетели настройки и заблокировалась установка сторонних APK).\n")
+    print(f"{C_GREEN}• Перемычка и сброс настроек НЕ ТРЕБУЮТСЯ!{C_RESET}")
+    print("• Скрипт мгновенно отключит защиту Parrot в build.prop, выключит AutoInstallVerifier")
+    print("  и установит переключатель Geely-ADB-Toggle на экран авто.\n")
+    print(f"{C_GRAY}Если на автомобиле ADB ещё закрыт с завода — вернитесь назад и выберите [2] (Открыть ADB с нуля).{C_RESET}\n")
+
+    # Guard: check if vehicle responds over ADB
+    if STATE.device_state != "connected":
+        code, stdout, _ = run_adb(["get-state"], timeout=2)
+        if code != 0 or stdout.strip() != "device":
+            print(f"{C_YELLOW}[!] Внимание: автомобиль сейчас не отвечает по ADB.{C_RESET}")
+            print(f"Если ADB закрыт с завода, Пункт [1] не сработает — выберите в меню {C_BOLD}[2] Открыть ADB с нуля{C_RESET}.")
+            print("Если ADB уже был открыт, проверьте плотность подключения кабеля USB-A.\n")
 
     ans = safe_input(f"{C_CYAN}Запустить процедуру снятия защит установки? [Enter - Да, 0 - Назад] > {C_RESET}", default="0").strip()
     if ans == "0":
@@ -127,6 +136,10 @@ def post_unlock_prompt():
     print(" • Проверка Parrot certificates: отключена (установка сторонних APK разрешена)")
     print(" • Проверяющий AutoInstallVerifier: отключен")
     print(" • Приложение Geely-ADB-Toggle: готово к работе на экране авто\n")
+    print(f"{C_CYAN}💡 ГДЕ БРАТЬ ПРИЛОЖЕНИЯ:{C_RESET}")
+    print(f" • Каталог софта, подогнанного под экран нашего авто: {C_GREEN}https://ex5app.wingie.ru/{C_RESET}")
+    print(f"   (спасибо первооткрывателю @wingus из чата!)")
+    print(f" • Либо ставьте любые свои файлы APK напрямую.\n")
     
     ans = safe_input(f"{C_CYAN}Открыть веб-сервис GeelyTune (твики и помощник ГУ) в браузере? [Y/n] > {C_RESET}", default="y").strip().lower()
     if ans != "n":
