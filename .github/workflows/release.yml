@@ -8,8 +8,6 @@ on:
       - 'v*'
       - 'B*'
       - 'b*'
-      - 'В*'
-      - 'в*'
   workflow_dispatch:
 
 permissions:
@@ -116,15 +114,15 @@ jobs:
           body: |
             ### 🚀 Geely ADB Unlock Master (Zero-Dependency Native TUI/CLI)
 
-            Универсальное автономное решение для постоянной разблокировки ADB и снятия ограничений установки сторонних приложений на автомобилях Geely (включая Geely EX5 EM-i / Flyme Auto / Ecarx).
+            A universal, standalone solution for permanently unlocking ADB and removing third-party app install restrictions on Geely cars (including the Geely EX5 EM-i / Flyme Auto / Ecarx).
 
-            #### 📦 Скачать одиночный файл под вашу систему:
-            * **Windows 10/11:** `GeelyUnlock.exe` (запуск двойным кликом, установка Python не требуется)
+            #### 📦 Download a single file for your system:
+            * **Windows 10/11:** `GeelyUnlock.exe` (run with a double-click, no Python required)
             * **macOS (Apple Silicon & Intel):** `GeelyUnlock-macOS` (`chmod +x GeelyUnlock-macOS && ./GeelyUnlock-macOS`)
             * **Linux (Ubuntu / Debian / Fedora):** `GeelyUnlock-Linux` (`chmod +x GeelyUnlock-Linux && ./GeelyUnlock-Linux`)
 
-            #### ✨ Особенности релиза:
-            * Автономный одиночный исполняемый файл без внешних зависимостей
-            * Встроенные бинарники Google ADB (Windows, macOS, Linux)
-            * Экспресс-снятие защиты после обновления ОД до 2.1.4.5+ и первоначальная разблокировка
-            * Умная проверка и установка переключателя Geely-ADB-Toggle на экран ГУ
+            #### ✨ Release highlights:
+            * Standalone single executable with no external dependencies
+            * Bundled Google ADB binaries (Windows, macOS, Linux)
+            * Express protection removal after a dealer update to 2.1.4.5+ and initial unlock
+            * Smart check and installation of the Geely-ADB-Toggle switch on the head unit screen

@@ -29,6 +29,9 @@ releases/
 # IDE and editors
 .idea/
 .vscode/
+
+# Local tooling / plugin session data
+.claude/tdd-guard/
 *.swp
 *.swo
 

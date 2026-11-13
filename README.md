@@ -1,143 +1,143 @@
 # Geely ADB Unlock Master 🚀
 
-Универсальное кроссплатформенное решение «в один клик» для постоянной разблокировки отладки по ADB, отключения ограничений установки сторонних приложений (Parrot certificates, AutoInstallVerifier) и интеграции с веб-установщиком GeelyTune на автомобилях Geely (в частности Geely EX5 EM-i с прошивками 2.1.4.5+ / Flyme Auto / Ecarx).
+A universal, cross-platform "one-click" solution for permanently unlocking ADB debugging, disabling third-party app install restrictions (Parrot certificates, AutoInstallVerifier), and integrating with the GeelyTune web installer on Geely cars (in particular the Geely EX5 EM-i with 2.1.4.5+ / Flyme Auto / Ecarx firmware).
 
 ---
 
-## 📦 Готовые автономные сборки (Скачать в один клик)
+## 📦 Ready-made standalone builds (one-click download)
 
-Для работы **не требуется** устанавливать Python или настраивать среду. Скачайте один файл под вашу систему со страницы **[Релизы (Releases)](https://github.com/leonkil318/ADB_Unlock/releases/latest)**:
+You do **not** need to install Python or set up an environment. Download a single file for your system from the **[Releases](https://github.com/leonkil318/ADB_Unlock/releases/latest)** page:
 
-| Платформа | Одиночный файл программы | Как запускать |
+| Platform | Single program file | How to run |
 | :--- | :--- | :--- |
-| **Windows 10/11** | [⬇️ **GeelyUnlock.exe**](https://github.com/leonkil318/ADB_Unlock/releases/latest/download/GeelyUnlock.exe) | Двойной клик по скачанному `GeelyUnlock.exe` |
-| **macOS (Apple Silicon / Intel)** | [⬇️ **GeelyUnlock-macOS**](https://github.com/leonkil318/ADB_Unlock/releases/latest/download/GeelyUnlock-macOS) | `chmod +x GeelyUnlock-macOS` и запуск |
-| **Linux (Ubuntu / Debian / Fedora)** | [⬇️ **GeelyUnlock-Linux**](https://github.com/leonkil318/ADB_Unlock/releases/latest/download/GeelyUnlock-Linux) | `chmod +x GeelyUnlock-Linux` и запуск |
+| **Windows 10/11** | [⬇️ **GeelyUnlock.exe**](https://github.com/leonkil318/ADB_Unlock/releases/latest/download/GeelyUnlock.exe) | Double-click the downloaded `GeelyUnlock.exe` |
+| **macOS (Apple Silicon / Intel)** | [⬇️ **GeelyUnlock-macOS**](https://github.com/leonkil318/ADB_Unlock/releases/latest/download/GeelyUnlock-macOS) | `chmod +x GeelyUnlock-macOS` and run |
+| **Linux (Ubuntu / Debian / Fedora)** | [⬇️ **GeelyUnlock-Linux**](https://github.com/leonkil318/ADB_Unlock/releases/latest/download/GeelyUnlock-Linux) | `chmod +x GeelyUnlock-Linux` and run |
 
 ---
 
-## ⚡ Быстрый старт из исходников
+## ⚡ Quick start from source
 
-Если вы склонировали весь репозиторий:
+If you cloned the whole repository:
 
 ### Windows
-Запустите файл:
+Run the file:
 ```text
-СТАРТ_Windows.bat
+START_Windows.bat
 ```
-*(Не требует Python — используется готовый автономный бинарник `core/geely_unlock.exe`).*
+*(No Python required - it uses the ready-made standalone binary `core/geely_unlock.exe`.)*
 
 ### macOS
-Запустите файл:
+Run the file:
 ```bash
-СТАРТ_Mac.command
+START_Mac.command
 ```
-*(Или в терминале: `./СТАРТ_Mac.command`)*
+*(Or in the terminal: `./START_Mac.command`)*
 
 ### Linux
-Запустите файл:
+Run the file:
 ```bash
-СТАРТ_Linux.sh
+START_Linux.sh
 ```
-*(Или в терминале: `./СТАРТ_Linux.sh`)*
+*(Or in the terminal: `./START_Linux.sh`)*
 
 ---
 
-## 💡 Просто о главном: Что программа делает с машиной? (Объяснение «на пальцах»)
+## 💡 The gist: what does the program do to the car? (A plain-language explanation)
 
-Представьте, что мультимедиа в вашей Geely (большой экран-планшет на приборной панели) — это обычный планшет на Android. Но с завода производитель запер его в **«бронированный сейф»**:
-1. 🔒 **Разъём USB заблокирован:** если подключить ноутбук обычным проводом, компьютер не увидит планшет.
-2. 🚫 **Нельзя ставить свои программы:** (Яндекс.Навигатор, YouTube, стриминги, игры) — на страже стоят два строгих «охранника».
-3. 🔄 **Изменения стираются:** любые временные настройки сбрасываются при выключении зажигания.
+Imagine the multimedia unit in your Geely (the big tablet screen on the dashboard) is an ordinary Android tablet. But from the factory the manufacturer locked it in an **"armored safe"**:
+1. 🔒 **The USB port is locked:** if you connect a laptop with an ordinary cable, the computer won't see the tablet.
+2. 🚫 **You can't install your own apps:** (navigation, YouTube, streaming, games) - two strict "guards" stand watch.
+3. 🔄 **Changes are wiped:** any temporary settings are reset when the ignition is turned off.
 
-**Наше приложение — это безопасный цифровой ключ и проводник, который решает задачу за 3 понятных шага:**
+**Our app is a safe digital key and guide that solves the task in 3 clear steps:**
 
 ```mermaid
 graph LR
-    A["🔑 Шаг 1<br>Открываем сервисный ADB"] --> B["👮 Шаг 2<br>Усыпляем охранников"]
-    B --> C["📱 Шаг 3<br>Тумблер + GeelyTune + APK"]
+    A["🔑 Step 1<br>Open service ADB"] --> B["👮 Step 2<br>Put the guards to sleep"]
+    B --> C["📱 Step 3<br>Toggle + GeelyTune + APK"]
     style A fill:#003366,stroke:#3399ff,stroke-width:2px,color:#fff
     style B fill:#004d40,stroke:#00bfa5,stroke-width:2px,color:#fff
     style C fill:#4a148c,stroke:#ab47bc,stroke-width:2px,color:#fff
 ```
 
-### 🚪 Шаг 1. Открываем «служебную форточку» (ADB)
-* **Зачем перемычка?**  
-  Завод оставил для инженеров тайную лазейку. Если замкнуть два сервисных контакта, планшет думает: *«Я на заводском стенде, нужно приоткрыть сервисный порт для инженера»*.
-* **Зачем сброс к заводским настройкам?**  
-  Когда вы нажимаете сброс на экране ГУ (**Основное приложение ➔ Мой автомобиль ➔ Сброс к заводским настройкам** и соглашаетесь со всеми предупреждениями), планшет перезагружается и ровно на **20 секунд** открывает служебное окно без системных ограничений.
-* **Что делает программа?**  
-  Компьютер непрерывно сканирует USB-порт. Как только эти 20 секунд наступают, программа молниеносно отправляет в систему автомобиля VHAL-команду:  
-  *«Переключи режим USB на постоянный ADB и зафиксируй его!»*  
-  Планшет подтверждает команду (`Set property`). Всё! Перемычку можно вытащить и убрать — **порт останется открытым навсегда**.
+### 🚪 Step 1. Opening the "service window" (ADB)
+* **Why the jumper?**  
+  The factory left a hidden door for engineers. If you short two service contacts, the tablet thinks: *"I'm on the factory bench, I need to open the service port for the engineer."*
+* **Why the factory reset?**  
+  When you tap reset on the head unit screen (**Main application ➔ My car ➔ Factory reset** and accept all the warnings), the tablet reboots and opens a service window for exactly **20 seconds** with no system restrictions.
+* **What does the program do?**  
+  The computer continuously scans the USB port. The moment those 20 seconds arrive, the program instantly sends a VHAL command to the car system:  
+  *"Switch the USB mode to persistent ADB and lock it in!"*  
+  The tablet confirms the command (`Set property`). Done! You can pull out the jumper and put it away - **the port stays open forever**.
 
-### 👮 Шаг 2. Усыпляем «охранников», запрещающих установку приложений
-В операционной системе экрана дежурят два охранника:
-1. **Первый охранник — «Parrot» (Попугай):**  
-   Он проверяет цифровые паспорта (сертификаты) у всех программ. Если приложение не подписано закрытым ключом завода Geely, он блокирует его.  
-   👉 **Что делает программа:** переключает параметр `ro.vendor.ecarx.app_verify=false`. Охранник закрывает глаза и больше не мешает установке.
-2. **Второй охранник — «AutoInstallVerifier»:**  
-   Системная служба-робот, которая следит за файлами `.apk` и блокирует их установку.  
-   👉 **Что делает программа:** отключает эту службу для всех пользователей ГУ одной безопасной системной командой.
+### 👮 Step 2. Putting to sleep the "guards" that forbid installing apps
+Two guards are on duty in the screen's operating system:
+1. **The first guard - "Parrot":**  
+  It checks the digital passports (certificates) of every app. If an app is not signed with Geely's factory private key, it blocks it.  
+  👉 **What the program does:** it switches the `ro.vendor.ecarx.app_verify=false` flag. The guard closes its eyes and no longer interferes with installation.
+2. **The second guard - "AutoInstallVerifier":**  
+  A system robot service that watches `.apk` files and blocks their installation.  
+  👉 **What the program does:** it disables this service for all head unit users with one safe system command.
 
-### 📱 Шаг 3. Ставим тумблер (ADB Toggle), твики GeelyTune и любые приложения
-1. **Тумблер в меню авто:** программа устанавливает маленькое приложение **«ADB Toggle»** прямо на экран ГУ. Вы сможете в один клик переключать разъём между флешкой с музыкой и кабелем отладки.
-2. **Веб-сервис GeelyTune:** программа открывает официальный сервис в браузере для установки сервисного помощника и удобных твиков интерфейса Geely (кастомизация, настройки кнопок и экрана).
-3. **Установка сторонних приложений (Яндекс.Навигатор, YouTube и др.):** все заводские барьеры (Parrot, верификаторы) полностью сняты! Теперь вы можете свободно ставить любые приложения — готовый каталог софта, подогнанного под разрешение экрана Geely EX5, доступен на **[ex5app.wingie.ru](https://ex5app.wingie.ru/)** (автор — первооткрыватель @wingus из чата сообщества), либо устанавливайте напрямую любые свои файлы `.apk`.
+### 📱 Step 3. Installing the toggle (ADB Toggle), GeelyTune tweaks and any apps
+1. **Toggle in the car menu:** the program installs a small app, **"ADB Toggle"**, right on the head unit screen. You'll be able to switch the port between a music flash drive and a debugging cable in one click.
+2. **GeelyTune web service:** the program opens the official service in the browser to install the service assistant and handy Geely interface tweaks (customization, button and screen settings).
+3. **Installing third-party apps (navigation, YouTube, etc.):** all the factory barriers (Parrot, verifiers) are fully removed! Now you can freely install any apps - a ready-made catalog of software fitted to the Geely EX5 screen resolution is available at **[ex5app.wingie.ru](https://ex5app.wingie.ru/)** (author - pioneer @wingus from the community chat), or install any of your own `.apk` files directly.
 
-### 🛡️ Что с безопасностью автомобиля?
-* **Полная изоляция:** мультимедиа работает на отдельном чипе Android. Программа **НЕ затрагивает** блоки управления двигателем, тормозами, приводом или подушками безопасности.
-* **Безопасность системных разделов (Overlayfs / Scratch):** системные заводские файлы не затираются и не повреждаются. Все изменения накладываются виртуальным слоем поверх исходной прошивки. Если на ГУ присутствовали старые файлы обновлений, скрипт аккуратно изолирует их без риска для системы.
-* **Поддержка европейских прошивок (`e245_eu`):** программа программно определяет экспортные версии Geely EX5 по идентификатору `ro.build.product`. На таких прошивках алгоритм адаптируется к другой структуре защиты и отключает верификаторы без лишних перезагрузок ГУ.
-
----
-
-## 📋 Сценарии работы
-
-### ⚡ Сценарий 1: Снятие защиты установки (после обновления у ОД до 2.1.4.5+)
-> ⚠️ **КРИТИЧЕСКИ ВАЖНО:** Этот сценарий **НЕ открывает изначально закрытый ADB**!  
-> Он предназначен **ТОЛЬКО** для автомобилей, где доступ по ADB **уже был открыт ранее**, но после дилерского обновления прошивки (до 2.1.4.5+) снова включились блокировки на установку сторонних APK.  
-> **Перемычка и сброс настроек НЕ ТРЕБУЮТСЯ!** Скрипт мгновенно отключает защиту Parrot certificates (`ro.vendor.ecarx.app_verify=false`), выключает системный `com.ecarx.xsfinstallverifier` и возвращает `Geely-ADB-Toggle-1.1.0.apk`.  
-> *Если ADB на автомобиле закрыт с завода — используйте Сценарий 2 ниже.*
-
-### 🔌 Сценарий 2: Первоначальное открытие ADB с нуля (через перемычку и Factory Reset)
-> Используется, если на автомобиле отладка по ADB ещё закрыта с завода.
-1. **Шаг 1: Подключение:**
-   - Подключение ноутбука через кабель USB-A ↔ USB-A к сервисному порту автомобиля (при установленной перемычке).
-2. **Шаг 2: Сброс настроек (к заводским):**
-   - На экране ГУ перейдите: **Основное приложение ➔ Мой автомобиль ➔ Сброс к заводским настройкам** и согласитесь со всеми предупреждениями. Автоматический перехват 20-секундного сервисного окна и программная фиксация VHAL (`USB_SWITCH=0`).
-3. **Шаг 3: Снятие перемычки и перезагрузка:**
-   - Извлечение перемычки, перезагрузка ГУ и подтверждение постоянного ADB в штатном режиме.
-4. **Шаг 4: Снятие ограничений установки:**
-   - Отключение верификаторов Parrot / AutoInstallVerifier и установка переключателя ADB-Toggle.
-5. **Шаг 5: GeelyTune и приложения:**
-   - Открытие веб-сервиса [GeelyTune](https://geelytune.github.io) для установки твиков ГУ и возможность ставить любые сторонние приложения (через каталог адаптированных приложений [ex5app.wingie.ru](https://ex5app.wingie.ru/) от @wingus или своими файлами .apk).
+### 🛡️ What about the car's safety?
+* **Full isolation:** the multimedia unit runs on a separate Android chip. The program does **NOT** touch the control modules for the engine, brakes, drivetrain or airbags.
+* **System partition safety (Overlayfs / Scratch):** the factory system files are not wiped or damaged. All changes are layered with a virtual layer on top of the original firmware. If the head unit had old update files, the script carefully isolates them with no risk to the system.
+* **Support for European firmware (`e245_eu`):** the program detects export versions of the Geely EX5 in software by the `ro.build.product` identifier. On such firmware the algorithm adapts to a different protection structure and disables the verifiers without extra head unit reboots.
 
 ---
 
-## 📁 Структура проекта
+## 📋 Usage scenarios
+
+### ⚡ Scenario 1: Removing install protection (after a dealer update to 2.1.4.5+)
+> ⚠️ **CRITICALLY IMPORTANT:** This scenario does **NOT open an originally closed ADB**!  
+> It is **ONLY** for cars where ADB access **was already open before**, but after a dealer firmware update (to 2.1.4.5+) the blocks on installing third-party APKs turned back on.  
+> **The jumper and factory reset are NOT REQUIRED!** The script instantly disables the Parrot certificates protection (`ro.vendor.ecarx.app_verify=false`), turns off the system `com.ecarx.xsfinstallverifier`, and restores `Geely-ADB-Toggle-1.1.0.apk`.  
+> *If ADB on the car is closed from the factory - use Scenario 2 below.*
+
+### 🔌 Scenario 2: Opening ADB from scratch for the first time (via a jumper and Factory Reset)
+> Used if ADB debugging on the car is still closed from the factory.
+1. **Step 1: Connection:**
+   - Connect the laptop with a USB-A ↔ USB-A cable to the car's service port (with the jumper installed).
+2. **Step 2: Factory reset:**
+   - On the head unit screen go to: **Main application ➔ My car ➔ Factory reset** and accept all the warnings. Automatic interception of the 20-second service window and software lock-in of VHAL (`USB_SWITCH=0`).
+3. **Step 3: Remove the jumper and reboot:**
+   - Pull out the jumper, reboot the head unit and confirm persistent ADB in normal mode.
+4. **Step 4: Remove install restrictions:**
+   - Disable the Parrot / AutoInstallVerifier verifiers and install the ADB-Toggle switch.
+5. **Step 5: GeelyTune and apps:**
+   - Open the [GeelyTune](https://geelytune.github.io) web service to install head unit tweaks, and gain the ability to install any third-party apps (via the catalog of adapted apps at [ex5app.wingie.ru](https://ex5app.wingie.ru/) by @wingus, or your own .apk files).
+
+---
+
+## 📁 Project structure
 
 ```text
-├── СТАРТ_Windows.bat        # Запуск для Windows
-├── СТАРТ_Mac.command        # Запуск для macOS
-├── СТАРТ_Linux.sh           # Запуск для Linux
-├── README.md                # Документация проекта
-├── core/                    # Внутренние компоненты
-│   ├── main.py              # Точка входа TUI-приложения
-│   ├── engine.py            # Движок бизнес-логики (ADB, VHAL, Parrot)
-│   ├── tui.py               # Zero-Dependency терминальный интерфейс
-│   ├── geely_unlock.exe     # Автономный бинарник для Windows
-│   ├── bin/                 # Встроенные бинарники Android Debug Bridge
-│   │   ├── adb.exe          # Google ADB для Windows (+ DLL)
-│   │   ├── adb-darwin       # ADB для macOS (Universal)
-│   │   └── adb-linux        # ADB для Linux (x86_64)
-│   ├── unlock-hu.sh         # Скрипт снятия системных ограничений ГУ
-│   └── Geely-ADB-Toggle...  # APK системного переключателя
-└── .agents/                 # AI-правила и база знаний разработки
+├── START_Windows.bat        # Launcher for Windows
+├── START_Mac.command        # Launcher for macOS
+├── START_Linux.sh           # Launcher for Linux
+├── README.md                # Project documentation
+├── core/                    # Internal components
+│   ├── main.py              # TUI application entry point
+│   ├── engine.py            # Business-logic engine (ADB, VHAL, Parrot)
+│   ├── tui.py               # Zero-Dependency terminal interface
+│   ├── geely_unlock.exe     # Standalone binary for Windows
+│   ├── bin/                 # Bundled Android Debug Bridge binaries
+│   │   ├── adb.exe          # Google ADB for Windows (+ DLLs)
+│   │   ├── adb-darwin       # ADB for macOS (Universal)
+│   │   └── adb-linux        # ADB for Linux (x86_64)
+│   ├── unlock-hu.sh         # Script that removes head unit system restrictions
+│   └── Geely-ADB-Toggle...  # APK of the system toggle
+└── .agents/                 # AI development rules and knowledge base
 ```
 
 ---
 
-## ⚠️ Предупреждение (Disclaimer)
+## ⚠️ Disclaimer
 
-Все действия выполняются вами на собственный страх и риск. Модификация системных настроек автомобиля может повлиять на гарантийные обязательства.
+Everything you do is at your own risk. Modifying the car's system settings may affect your warranty.

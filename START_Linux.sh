@@ -2,7 +2,7 @@
 cd "$(dirname "$0")"
 clear
 echo "==================================================="
-echo "    Запуск Мастера разблокировки Geely ADB..."
+echo "    Starting Geely ADB Unlock Master..."
 echo "==================================================="
 echo ""
 
@@ -28,7 +28,7 @@ if command -v python3 >/dev/null 2>&1; then
 elif command -v python >/dev/null 2>&1; then
     python "core/main.py"
 else
-    echo "ОШИБКА: Python 3 не найден в системе."
-    echo "Пожалуйста, установите Python 3 (например: sudo apt install python3)."
-    read -p "Нажмите Enter для выхода..."
+    echo "ERROR: Python 3 was not found on the system."
+    echo "Please install Python 3 (for example: sudo apt install python3)."
+    read -p "Press Enter to exit..."
 fi
