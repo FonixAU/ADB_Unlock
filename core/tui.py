@@ -31,7 +31,7 @@ ANSI_REGEX = re.compile(r'\x1b\[[0-9;]*[a-zA-Z]')
 
 def get_char_width(c):
     """Returns visual terminal cell width of a character (0, 1, or 2)."""
-    if c in ('\ufe0e', '\ufe0f') or unicodedata.combining(c):
+    if c in ('︎', '️') or unicodedata.combining(c):
         return 0
     w = unicodedata.east_asian_width(c)
     if w in ('F', 'W'):
@@ -151,32 +151,32 @@ def render_diagnostic_card(state):
 
     t = state.last_test or {}
     connected = t.get("connected", state.device_state == "connected")
-    serial = t.get("serial") or state.device_serial or "Не обнаружено"
-    model = t.get("model") or ("Штатное ГУ Geely" if connected else "-")
+    serial = t.get("serial") or state.device_serial or "Not detected"
+    model = t.get("model") or ("Stock Geely head unit" if connected else "-")
     firmware = t.get("firmware") or ("2.1.4.5+" if connected else "-")
 
     if connected:
-        adb_badge = f"{C_GREEN}[ АКТИВЕН ]{C_RESET}"
+        adb_badge = f"{C_GREEN}[ ACTIVE ]{C_RESET}"
     elif t.get("state") == "unauthorized":
-        adb_badge = f"{C_YELLOW}[ ТРЕБУЕТ ДОПУСК ]{C_RESET}"
+        adb_badge = f"{C_YELLOW}[ NEEDS ACCESS ]{C_RESET}"
     else:
-        adb_badge = f"{C_RED}[ НЕ ПОДКЛЮЧЕН ]{C_RESET}"
+        adb_badge = f"{C_RED}[ NOT CONNECTED ]{C_RESET}"
 
     if connected:
         if t.get("parrot_locked"):
-            parrot_badge = f"{C_YELLOW}[ БЛОКИРУЕТ ]{C_RESET}"
+            parrot_badge = f"{C_YELLOW}[ BLOCKING ]{C_RESET}"
         else:
-            parrot_badge = f"{C_GREEN}[ ВЫКЛЮЧЕНА ]{C_RESET}"
+            parrot_badge = f"{C_GREEN}[ DISABLED ]{C_RESET}"
 
         if t.get("verifier_active"):
-            verifier_badge = f"{C_YELLOW}[ АКТИВЕН ]{C_RESET}"
+            verifier_badge = f"{C_YELLOW}[ ACTIVE ]{C_RESET}"
         else:
-            verifier_badge = f"{C_GREEN}[ ОТКЛЮЧЕН ]{C_RESET}"
+            verifier_badge = f"{C_GREEN}[ DISABLED ]{C_RESET}"
     else:
         parrot_badge = f"{C_GRAY}[ - ]{C_RESET}"
         verifier_badge = f"{C_GRAY}[ - ]{C_RESET}"
 
-    title_str = "┌─ СТАТУС ПОДКЛЮЧЕНИЯ И ДИАГНОСТИКА "
+    title_str = "┌─ CONNECTION STATUS AND DIAGNOSTICS "
     dash_count = max(2, W - visible_len(title_str) - 1)
     print(f"{C_CYAN}{title_str}{'─' * dash_count}┐{C_RESET}")
 
@@ -186,20 +186,20 @@ def render_diagnostic_card(state):
         col1_w = half
         col2_w = inner - half
 
-        l1_c1 = f"Связь ADB:     {adb_badge}"
-        l1_c2 = f"Серийник:    {C_WHITE}{serial}{C_RESET}"
+        l1_c1 = f"ADB link:      {adb_badge}"
+        l1_c2 = f"Serial:      {C_WHITE}{serial}{C_RESET}"
         pad1 = " " * max(0, col1_w - visible_len(l1_c1))
         pad2 = " " * max(0, col2_w - visible_len(l1_c2))
         print(f"{C_CYAN}│{C_RESET} {l1_c1}{pad1}{l1_c2}{pad2} {C_CYAN}│{C_RESET}")
 
-        l2_c1 = f"Модель ГУ:     {C_WHITE}{model}{C_RESET}"
-        l2_c2 = f"Прошивка:    {C_CYAN}{firmware}{C_RESET}"
+        l2_c1 = f"HU model:      {C_WHITE}{model}{C_RESET}"
+        l2_c2 = f"Firmware:    {C_CYAN}{firmware}{C_RESET}"
         pad1 = " " * max(0, col1_w - visible_len(l2_c1))
         pad2 = " " * max(0, col2_w - visible_len(l2_c2))
         print(f"{C_CYAN}│{C_RESET} {l2_c1}{pad1}{l2_c2}{pad2} {C_CYAN}│{C_RESET}")
 
-        l3_c1 = f"Защита Parrot: {parrot_badge}"
-        l3_c2 = f"Верификатор: {verifier_badge}"
+        l3_c1 = f"Parrot guard:  {parrot_badge}"
+        l3_c2 = f"Verifier:    {verifier_badge}"
         pad1 = " " * max(0, col1_w - visible_len(l3_c1))
         pad2 = " " * max(0, col2_w - visible_len(l3_c2))
         print(f"{C_CYAN}│{C_RESET} {l3_c1}{pad1}{l3_c2}{pad2} {C_CYAN}│{C_RESET}")
@@ -209,12 +209,12 @@ def render_diagnostic_card(state):
             p = pad_box_line(text, inner)
             print(f"{C_CYAN}│{C_RESET} {p} {C_CYAN}│{C_RESET}")
 
-        print_single(f"Связь ADB:     {adb_badge}")
-        print_single(f"Серийник:      {C_WHITE}{serial}{C_RESET}")
-        print_single(f"Модель ГУ:     {C_WHITE}{model}{C_RESET}")
-        print_single(f"Прошивка:      {C_CYAN}{firmware}{C_RESET}")
-        print_single(f"Защита Parrot: {parrot_badge}")
-        print_single(f"Верификатор:   {verifier_badge}")
+        print_single(f"ADB link:      {adb_badge}")
+        print_single(f"Serial:        {C_WHITE}{serial}{C_RESET}")
+        print_single(f"HU model:      {C_WHITE}{model}{C_RESET}")
+        print_single(f"Firmware:      {C_CYAN}{firmware}{C_RESET}")
+        print_single(f"Parrot guard:  {parrot_badge}")
+        print_single(f"Verifier:      {verifier_badge}")
 
     print(f"{C_CYAN}└{'─' * (W - 2)}┘{C_RESET}")
 
@@ -228,7 +228,7 @@ def render_menu(state):
     connected = t.get("connected", state.device_state == "connected")
     needs_unlock = t.get("needs_unlock", True)
 
-    title_str = "┌─ МЕНЮ ДЕЙСТВИЙ "
+    title_str = "┌─ ACTION MENU "
     dash_count = max(2, W - visible_len(title_str) - 1)
     print(f"{C_CYAN}{title_str}{'─' * dash_count}┐{C_RESET}")
 
@@ -237,19 +237,19 @@ def render_menu(state):
         print(f"{C_CYAN}│{C_RESET} {p} {C_CYAN}│{C_RESET}")
 
     if connected and needs_unlock:
-        print_menu_item(f"{C_GREEN}{C_BOLD}[1] Снять защиту установки (ОД 2.1.4.5+, ТОЛЬКО если ADB уже открыт){C_RESET}")
+        print_menu_item(f"{C_GREEN}{C_BOLD}[1] Remove install protection (dealer 2.1.4.5+, ONLY if ADB is already open){C_RESET}")
     else:
-        print_menu_item(f"{C_WHITE}[1]{C_RESET} Снять защиту установки (Только если ADB уже открыт / после ОД)")
+        print_menu_item(f"{C_WHITE}[1]{C_RESET} Remove install protection (only if ADB is already open / after dealer)")
 
-    print_menu_item(f"{C_WHITE}[2]{C_RESET} Открыть ADB с нуля (Фиксация порта через перемычку + сброс ГУ)")
-    print_menu_item(f"{C_WHITE}[3]{C_RESET} Проверить статус ГУ (Диагностика связи и состояния блокировок)")
-    print_menu_item(f"{C_WHITE}[4]{C_RESET} Открыть GeelyTune в браузере (твики и помощник ГУ)")
-    print_menu_item(f"{C_GREEN}{C_BOLD}[5] Открыть магазин EX5 Apps (установка софта через браузер от @wingus){C_RESET}")
-    print_menu_item(f"{C_WHITE}[6]{C_RESET} Перезапустить службу ADB (Очистить зависшие процессы)")
-    sound_badge = f"{C_GREEN}[ ВКЛ ]{C_RESET}" if is_sound_enabled() else f"{C_GRAY}[ ВЫКЛ ]{C_RESET}"
-    print_menu_item(f"{C_WHITE}[7]{C_RESET} Звуковые эффекты: {sound_badge}")
-    print_menu_item(f"{C_YELLOW}[8]{C_RESET} Справка: Что делает программа? (Простыми словами)")
-    print_menu_item(f"{C_GRAY}[0] Выход{C_RESET}")
+    print_menu_item(f"{C_WHITE}[2]{C_RESET} Open ADB from scratch (lock in the port via jumper + head unit reset)")
+    print_menu_item(f"{C_WHITE}[3]{C_RESET} Check head unit status (connection and lock-state diagnostics)")
+    print_menu_item(f"{C_WHITE}[4]{C_RESET} Open GeelyTune in the browser (head unit tweaks and assistant)")
+    print_menu_item(f"{C_GREEN}{C_BOLD}[5] Open the EX5 Apps store (install software via the browser, by @wingus){C_RESET}")
+    print_menu_item(f"{C_WHITE}[6]{C_RESET} Restart the ADB service (clear stuck processes)")
+    sound_badge = f"{C_GREEN}[ ON ]{C_RESET}" if is_sound_enabled() else f"{C_GRAY}[ OFF ]{C_RESET}"
+    print_menu_item(f"{C_WHITE}[7]{C_RESET} Sound effects: {sound_badge}")
+    print_menu_item(f"{C_YELLOW}[8]{C_RESET} Help: What does the program do? (In plain words)")
+    print_menu_item(f"{C_GRAY}[0] Exit{C_RESET}")
 
     print(f"{C_CYAN}└{'─' * (W - 2)}┘{C_RESET}")
 
@@ -259,13 +259,13 @@ def render_recent_logs(state, count=5):
     W = get_terminal_width()
     inner = W - 4
 
-    title_str = "┌─ ЖУРНАЛ СООБЩЕНИЙ "
+    title_str = "┌─ MESSAGE LOG "
     dash_count = max(2, W - visible_len(title_str) - 1)
     print(f"{C_CYAN}{title_str}{'─' * dash_count}┐{C_RESET}")
 
     recent = state.logs[-count:] if state.logs else []
     if not recent:
-        p = pad_box_line(f"{C_GRAY}Журнал пуст. Выберите действие в меню выше.{C_RESET}", inner)
+        p = pad_box_line(f"{C_GRAY}The log is empty. Choose an action in the menu above.{C_RESET}", inner)
         print(f"{C_CYAN}│{C_RESET} {p} {C_CYAN}│{C_RESET}")
     else:
         for entry in recent:
@@ -277,7 +277,7 @@ def render_recent_logs(state, count=5):
                 "error": C_RED,
                 "info": C_WHITE
             }.get(level, C_WHITE)
-            
+
             raw_text = entry.get("formatted", entry.get("text", ""))
             clean_text = ANSI_REGEX.sub('', raw_text)
 
@@ -296,7 +296,7 @@ def print_error_card(err):
     W = get_terminal_width()
     inner = W - 4
 
-    title_str = "┌─ ДИАГНОСТИКА И ПРИЧИНА СБОЯ "
+    title_str = "┌─ DIAGNOSTICS AND CAUSE OF FAILURE "
     dash_count = max(2, W - visible_len(title_str) - 1)
     print(f"\n{C_RED}{title_str}{'─' * dash_count}┐{C_RESET}")
 
@@ -308,14 +308,14 @@ def print_error_card(err):
         print(f"{C_RED}│{C_RESET} {' ' * inner} {C_RED}│{C_RESET}")
 
     # Title
-    title = err.get("title", "Сбой выполнения операции")
-    print_line(f"{C_RED}{C_BOLD}[!] СБОЙ: {title}{C_RESET}")
+    title = err.get("title", "Operation failed")
+    print_line(f"{C_RED}{C_BOLD}[!] FAILURE: {title}{C_RESET}")
     print(f"{C_RED}├{'─' * (W - 2)}┤{C_RESET}")
 
     # Reason
     reason = err.get("reason", "")
     if reason:
-        print_line(f"{C_YELLOW}{C_BOLD}• Суть проблемы:{C_RESET}")
+        print_line(f"{C_YELLOW}{C_BOLD}• What went wrong:{C_RESET}")
         for r_line in textwrap.wrap(reason, width=inner - 4):
             print_line(f"  {r_line}")
         print_empty()
@@ -323,7 +323,7 @@ def print_error_card(err):
     # Steps
     steps = err.get("steps", [])
     if steps:
-        print_line(f"{C_CYAN}{C_BOLD}• Рекомендуемые действия:{C_RESET}")
+        print_line(f"{C_CYAN}{C_BOLD}• Recommended actions:{C_RESET}")
         for i, step in enumerate(steps, 1):
             wrapped = textwrap.wrap(f"{i}. {step}", width=inner - 4, subsequent_indent="   ")
             for s_line in wrapped:
@@ -333,7 +333,7 @@ def print_error_card(err):
     # Technical ADB details (if available and different from title)
     raw = err.get("raw", "")
     if raw and raw.strip() != title.strip():
-        print_line(f"{C_GRAY}{C_BOLD}• Исходный код ошибки системы (ADB):{C_RESET}")
+        print_line(f"{C_GRAY}{C_BOLD}• Raw system error code (ADB):{C_RESET}")
         clean_raw = ANSI_REGEX.sub('', str(raw)).strip()
         for raw_line in clean_raw.splitlines()[:3]:
             for w_r in textwrap.wrap(raw_line, width=inner - 4):
@@ -342,14 +342,14 @@ def print_error_card(err):
     print(f"{C_RED}└{'─' * (W - 2)}┘{C_RESET}")
 
 
-def run_interactive_task(state, task_fn, title="Выполнение операции"):
+def run_interactive_task(state, task_fn, title="Running operation"):
     """Runs a background task while streaming live logs and an animated spinner adaptively."""
     clear_screen()
     print_banner()
     W = get_terminal_width()
 
     print(f"\n{C_CYAN}{C_BOLD}[*] {title.upper()}{C_RESET}")
-    print(f"{C_GRAY}Нажмите Ctrl+C для прерывания в случае необходимости.{C_RESET}\n")
+    print(f"{C_GRAY}Press Ctrl+C to interrupt if necessary.{C_RESET}\n")
 
     state.stop_worker = False
     state.status = "running"
@@ -361,7 +361,7 @@ def run_interactive_task(state, task_fn, title="Выполнение опера�
         try:
             task_fn()
         except Exception as e:
-            state.log(f"Исключение в процессе: {e}", "error")
+            state.log(f"Exception in the process: {e}", "error")
         finally:
             worker_finished.set()
 
@@ -437,7 +437,7 @@ def run_interactive_task(state, task_fn, title="Выполнение опера�
 
         if state.status == "success":
             play_sound("success")
-            print(f"\n{C_GREEN}{C_BOLD}[OK] ОПЕРАЦИЯ УСПЕШНО ЗАВЕРШЕНА!{C_RESET}")
+            print(f"\n{C_GREEN}{C_BOLD}[OK] OPERATION COMPLETED SUCCESSFULLY!{C_RESET}")
         elif state.status == "error":
             play_sound("error")
             err = getattr(state, "last_error_details", None)
@@ -445,16 +445,16 @@ def run_interactive_task(state, task_fn, title="Выполнение опера�
                 print_error_card(err)
             else:
                 title = state.status_message
-                print(f"\n{C_RED}{C_BOLD}[!] ПРОИЗОШЛА ОШИБКА: {title}{C_RESET}")
+                print(f"\n{C_RED}{C_BOLD}[!] AN ERROR OCCURRED: {title}{C_RESET}")
 
     except KeyboardInterrupt:
         state.stop_worker = True
         play_sound("step")
-        print(f"\n\n{C_YELLOW}[!] Операция прервана пользователем.{C_RESET}")
+        print(f"\n\n{C_YELLOW}[!] Operation interrupted by the user.{C_RESET}")
 
     print()
     try:
-        input(f"{C_CYAN}Нажмите Enter для возврата в меню...{C_RESET}")
+        input(f"{C_CYAN}Press Enter to return to the menu...{C_RESET}")
     except (KeyboardInterrupt, EOFError):
         pass
 
@@ -480,63 +480,62 @@ def render_help_screen():
     def box_bottom():
         print(f"{C_CYAN}└{'─' * (W - 2)}┘{C_RESET}")
 
-    box_title("[1] СУТЬ ПРОГРАММЫ: ЧТО МЫ ДЕЛАЕМ С МАШИНОЙ?")
-    box_line("Экран мультимедиа Geely — это обычный Android-планшет. Но с завода он", C_WHITE)
-    box_line("заперт в «бронированный сейф»:", C_WHITE)
-    box_line(" 1. Разъём USB заблокирован: провод от ноутбука его не видит.", C_YELLOW)
-    box_line(" 2. Свои приложения (Яндекс.Навигатор, YouTube) ставить нельзя — стоят 2 «охранника».", C_YELLOW)
-    box_line(" 3. Любые временные изменения сбрасываются при перезапуске автомобиля.", C_YELLOW)
-    box_line("Наша программа — это безопасный цифровой ключ, который всё настраивает.", C_GREEN)
+    box_title("[1] WHAT THE PROGRAM DOES: WHAT ARE WE DOING TO THE CAR?")
+    box_line("The Geely multimedia screen is just an ordinary Android tablet. But from the", C_WHITE)
+    box_line("factory it is locked in an \"armored safe\":", C_WHITE)
+    box_line(" 1. The USB port is locked: a cable from the laptop cannot see it.", C_YELLOW)
+    box_line(" 2. You can't install your own apps (Maps, YouTube) - two \"guards\" stand watch.", C_YELLOW)
+    box_line(" 3. Any temporary changes are reset when the car restarts.", C_YELLOW)
+    box_line("Our program is a safe digital key that sets everything up.", C_GREEN)
     box_bottom()
 
-    box_title("[!] В ЧЁМ РАЗНИЦА: ПУНКТ 1 ИЛИ ПУНКТ 2?")
-    box_line("• Пункт [1] — Снятие защиты установки (после дилера ОД 2.1.4.5+):", C_YELLOW)
-    box_line("  ВАЖНО: Пункт [1] НЕ открывает закрытый порт ADB! Он нужен ТОЛЬКО если ADB", C_RED)
-    box_line("  уже был открыт ранее, но после обновления у дилера слетели права на установку APK.", C_WHITE)
-    box_line("  Перемычка и сброс НЕ нужны: скрипт за секунды выключает Parrot и верификаторы.", C_GREEN)
-    box_line("• Пункт [2] — Открыть ADB с нуля (порт закрыт с завода):", C_CYAN)
-    box_line("  Если машина новая и ноутбук не видит ГУ по кабелю. Нужна перемычка и сброс ГУ", C_WHITE)
-    box_line("  (Основное приложение ➔ Мой автомобиль ➔ Сброс к заводским настройкам),", C_WHITE)
-    box_line("  чтобы поймать 20-секундное окно и навсегда открыть порт через VHAL-команду.", C_GREEN)
+    box_title("[!] WHAT'S THE DIFFERENCE: ITEM 1 OR ITEM 2?")
+    box_line("• Item [1] - Remove install protection (after a dealer update to 2.1.4.5+):", C_YELLOW)
+    box_line("  IMPORTANT: Item [1] does NOT open a closed ADB port! It is ONLY needed if ADB", C_RED)
+    box_line("  was already open before, but a dealer update reset the right to install APKs.", C_WHITE)
+    box_line("  No jumper or reset needed: the script disables Parrot and the verifiers in seconds.", C_GREEN)
+    box_line("• Item [2] - Open ADB from scratch (port closed from the factory):", C_CYAN)
+    box_line("  For a new car where the laptop can't see the head unit over the cable. Needs a jumper", C_WHITE)
+    box_line("  and a head unit reset (Main application -> My car -> Factory reset),", C_WHITE)
+    box_line("  to catch the 20-second window and open the port forever via a VHAL command.", C_GREEN)
     box_bottom()
 
-    box_title("[ШАГ 1] ОТКРЫВАЕМ СЛУЖЕБНУЮ СВЯЗЬ (ADB)")
-    box_line("• Зачем перемычка? Завод оставил для инженеров тайную лазейку. При замыкании", C_WHITE)
-    box_line("  двух контактов планшет думает: «Я на сервисе, нужно приоткрыть сервисный порт».", C_WHITE)
-    box_line("• Зачем сброс настроек? При сбросе к заводским настройкам (в меню авто)", C_WHITE)
-    box_line("  планшет перезагружается и ровно на 20 секунд открывает служебное окно.", C_WHITE)
-    box_line("• Что делает программа? Компьютер ловит эти 20 секунд и молниеносно отправляет", C_CYAN)
-    box_line("  команду фиксации VHAL: «Включить постоянный ADB!». Планшет сохраняет флаг.", C_CYAN)
-    box_line("  После этого перемычку снимают навсегда — порт больше никогда не закроется.", C_GREEN)
+    box_title("[STEP 1] OPENING THE SERVICE CONNECTION (ADB)")
+    box_line("• Why the jumper? The factory left a hidden door for engineers. When two contacts", C_WHITE)
+    box_line("  are shorted, the tablet thinks: \"I'm in service, I need to open the service port\".", C_WHITE)
+    box_line("• Why the factory reset? During a factory reset (in the car menu) the tablet", C_WHITE)
+    box_line("  reboots and opens a service window for exactly 20 seconds.", C_WHITE)
+    box_line("• What does the program do? The computer catches those 20 seconds and instantly sends", C_CYAN)
+    box_line("  the VHAL lock-in command: \"Enable persistent ADB!\". The tablet saves the flag.", C_CYAN)
+    box_line("  After that the jumper is removed forever - the port will never close again.", C_GREEN)
     box_bottom()
 
-    box_title("[ШАГ 2] УСЫПЛЯЕМ «ОХРАННИКОВ», ЗАПРЕЩАЮЩИХ УСТАНОВКУ")
-    box_line("1. Охранник «Parrot» (Попугай) проверяет цифровую подпись завода Geely.", C_WHITE)
-    box_line("   Если подписи нет — выкидывает APK. Мы переключаем app_verify=false.", C_CYAN)
-    box_line("   Охранник спокойно засыпает и больше ни к кому не придирается.", C_GREEN)
-    box_line("2. Охранник «AutoInstallVerifier» — системный робот, блокирующий установку APK.", C_WHITE)
-    box_line("   Программа принудительно отключает этого робота для всех профилей ГУ.", C_GREEN)
+    box_title("[STEP 2] PUTTING THE INSTALL-BLOCKING \"GUARDS\" TO SLEEP")
+    box_line("1. The \"Parrot\" guard checks the Geely factory's digital signature.", C_WHITE)
+    box_line("   If there's no signature it rejects the APK. We switch app_verify=false.", C_CYAN)
+    box_line("   The guard calmly falls asleep and no longer nitpicks anyone.", C_GREEN)
+    box_line("2. The \"AutoInstallVerifier\" guard is a system robot that blocks APK installs.", C_WHITE)
+    box_line("   The program forcibly disables this robot for all head unit profiles.", C_GREEN)
     box_bottom()
 
-    box_title("[ШАГ 3] ТУМБЛЕР (ADB TOGGLE), ТВИКИ GEELYTUNE И ПРИЛОЖЕНИЯ")
-    box_line("• На экран ГУ ставится тумблер ADB Toggle: в один клик можно переключать разъём", C_WHITE)
-    box_line("  между обычной флешкой с музыкой и кабелем отладки.", C_WHITE)
-    box_line("• Открывается GeelyTune для установки помощника ГУ и удобных твиков интерфейса.", C_CYAN)
-    box_line("• Приложения теперь ставятся без препятствий: адаптированный софт под экран авто", C_WHITE)
-    box_line("  доступен на https://ex5app.wingie.ru/ (автор — первооткрыватель @wingus)", C_GREEN)
-    box_line("  либо устанавливайте любые свои файлы APK напрямую.", C_GREEN)
+    box_title("[STEP 3] THE TOGGLE (ADB TOGGLE), GEELYTUNE TWEAKS AND APPS")
+    box_line("• An ADB Toggle switch is placed on the head unit screen: in one click you can switch", C_WHITE)
+    box_line("  the port between a regular music flash drive and a debugging cable.", C_WHITE)
+    box_line("• GeelyTune opens for installing the head unit assistant and handy interface tweaks.", C_CYAN)
+    box_line("• Apps now install without obstacles: software adapted to the car screen", C_WHITE)
+    box_line("  is available at https://ex5app.wingie.ru/ (author - pioneer @wingus)", C_GREEN)
+    box_line("  or install any of your own APK files directly.", C_GREEN)
     box_bottom()
 
-    box_title("[БЕЗОПАСНОСТЬ] ЧТО С МАШИНОЙ И ПЛАНШЕТОМ?")
-    box_line("• Мы НЕ трогаем прошивку двигателя, тормозов, рулевого управления или подушек.", C_WHITE)
-    box_line("• Системные разделы защищены: изменения накладываются через виртуальный слой (overlay).", C_WHITE)
-    box_line("• Заводские файлы не перезаписываются, а старые временные слои безопасно изолируются.", C_WHITE)
-    box_line("• Европейские версии (e245_eu) определяются программно и защищены от лишних перезагрузок.", C_WHITE)
+    box_title("[SAFETY] WHAT ABOUT THE CAR AND THE TABLET?")
+    box_line("• We do NOT touch the firmware of the engine, brakes, steering or airbags.", C_WHITE)
+    box_line("• System partitions are protected: changes are layered via a virtual layer (overlay).", C_WHITE)
+    box_line("• Factory files are not overwritten, and old temporary layers are safely isolated.", C_WHITE)
+    box_line("• European versions (e245_eu) are detected in software and protected from extra reboots.", C_WHITE)
     box_bottom()
 
     print()
     try:
-        input(f"{C_CYAN}Нажмите Enter для возврата в главное меню...{C_RESET}")
+        input(f"{C_CYAN}Press Enter to return to the main menu...{C_RESET}")
     except (KeyboardInterrupt, EOFError):
         pass
-
